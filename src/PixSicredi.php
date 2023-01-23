@@ -11,7 +11,7 @@ class PixSicredi
 
 	protected $url;
 
-	protected $authorization;
+	protected $token;
 
 	public function __construct($dados)
 	{
@@ -21,15 +21,13 @@ class PixSicredi
 		} else {
 			$this->url = self::urlH;
 		}
-
-		$this->authorization = base64_encode($dados[""] . $dados[""]);
 	}
 
 
 
-
-	public function accessToken()
+	public function accessToken($dados)
 	{
+		$authorization = base64_encode($dados["clientID"] . ":" . $dados["clientSecret"]);
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $this->url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -37,15 +35,17 @@ class PixSicredi
 		curl_setopt($ch, CURLOPT_POSTFIELDS, "grant_type=client_credentials&scope=cob.write+cob.read+cobv.write+cobv.read+webhook.read+webhook.write");
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 			'Content-Type: application/x-www-form-urlencoded',
-			'Authorization: Basic ' . $this->authorization
+			'Authorization: Basic ' . $authorization
 		));
-
+		$return = ["status" => true];
 		$result = curl_exec($ch);
 		if (curl_errno($ch)) {
-			echo 'Error:' . curl_error($ch);
+			$return["status"] = false;
+			$return["mensagem"] = curl_error($ch);
+		} else {
+			$return["data"] = $result;
 		}
 		curl_close($ch);
-
-		return $result;
+		return $return;
 	}
 }
