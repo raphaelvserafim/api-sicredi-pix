@@ -49,6 +49,7 @@ class PixSicredi
 		return $return;
 	}
 
+
 	public function updateWebhook($url)
 	{
 		$curl = curl_init();
