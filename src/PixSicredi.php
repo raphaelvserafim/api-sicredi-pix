@@ -11,6 +11,8 @@ class PixSicredi
 
 	protected $url;
 
+	protected $authorization;
+
 	public function __construct($dados)
 	{
 
@@ -19,8 +21,31 @@ class PixSicredi
 		} else {
 			$this->url = self::urlH;
 		}
+
+		$this->authorization = base64_encode($dados[""] . $dados[""]);
 	}
 
 
-	
+
+
+	public function accessToken()
+	{
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $this->url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "grant_type=client_credentials&scope=cob.write+cob.read+cobv.write+cobv.read+webhook.read+webhook.write");
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			'Content-Type: application/x-www-form-urlencoded',
+			'Authorization: Basic ' . $this->authorization
+		));
+
+		$result = curl_exec($ch);
+		if (curl_errno($ch)) {
+			echo 'Error:' . curl_error($ch);
+		}
+		curl_close($ch);
+
+		return $result;
+	}
 }
