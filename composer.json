@@ -1,0 +1,16 @@
+{
+    "name": "cachesistemas/api-pix-sicredi",
+    "description": "API Pix Sicredi",
+    "autoload": {
+        "psr-4": {
+            "Cachesistemas\\ApiPixSicredi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Raphael Serafim",
+            "email": "raphaelvserafim@gmail.com"
+        }
+    ],
+    "require": {}
+}
