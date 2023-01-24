@@ -24,6 +24,7 @@
 
 
 ## Example of use:
+
 ### access Token
 ```php
 use Cachesistemas\ApiPixSicredi\PixSicredi;
@@ -43,5 +44,26 @@ $pix         = new PixSicredi($initPix);
 
 $accessToken = $pix->accessToken();
  
+```
 
+
+### Update URL WebHook
+```php
+use Cachesistemas\ApiPixSicredi\PixSicredi;
+
+include_once 'vendor/autoload.php';
+
+$initPix  = [
+    "producao" => 0,
+    "client_id" => "",
+    "client_secret" => "",
+    "crt_file" => "/certificado.pem",
+    "key_file" => "/APLICACAO.key",
+    "pass" => ""
+];
+
+$pix         = new PixSicredi($initPix);
+ 
+ $pix->updateWebhook('sua-url', 'sua-chave-pix');
+ 
 ```
