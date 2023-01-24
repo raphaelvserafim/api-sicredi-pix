@@ -51,3 +51,36 @@ $accessToken = $pix->accessToken();
 ```php
  $pix->updateWebhook('sua-url', 'sua-chave-pix');
 ```
+
+
+### Cobrança
+```php
+
+
+$cobranca  = [
+    "calendario" => [
+        "dataDeVencimento" => "2040-04-01",
+        "validadeAposVencimento" => 1
+    ],
+   
+    "valor" => [
+        "original" => 10.00,
+        "modalidadeAlteracao" => 1
+    ],
+    "chave" => "23711695000115",
+    "solicitacaoPagador" => "Serviço realizado.",
+    "infoAdicionais" => [
+        [
+            "nome" => "cliente_id",
+            "valor" => "1234"
+        ],
+        [
+            "nome" => "fatura_id",
+            "valor" =>  123334
+        ]
+    ]
+];
+
+ $pix->criarCobranca($cobranca );
+ 
+```
