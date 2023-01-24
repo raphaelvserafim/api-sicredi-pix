@@ -56,9 +56,8 @@ class PixSicredi
 		curl_setopt($curl, CURLOPT_SSLKEY, $this->key_file);
 		curl_setopt($curl, CURLOPT_SSLKEYPASSWD, $this->pass);
 		$response = curl_exec($curl);
-		$status   = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		curl_close($curl);
-		return json_encode(["code" => $status, "data" => $response]);
+		return $response;
 	}
 
 
@@ -101,7 +100,8 @@ class PixSicredi
 		$this->parth  =  '/api/v2/webhook/' . $chave;
 		$this->header =  ['Content-Type: application/json', 'Authorization: Bearer ' . $this->token . ''];
 		$this->fields =  json_encode(["webhookUrl" => $url]);
-		return $this->Request("PUT");
+		$response     = $this->Request("PUT");
+		return $response;
 	}
 
 
@@ -111,6 +111,7 @@ class PixSicredi
 
 		$this->parth  =  '/api/v2/webhook/' . $chave;
 		$this->header =  ['Authorization: Bearer ' . $this->token . ''];
-		return $this->Request("GET");
+		$response     =  $this->Request("GET");
+		return $response;
 	}
 }
