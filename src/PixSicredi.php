@@ -97,12 +97,50 @@ class PixSicredi
 		return $response;
 	}
 
-	
+
 	public function deleteUrlWebhook($chave)
 	{
 		$this->parth  =  '/api/v2/webhook/' . $chave;
 		$this->header =  ['Authorization: Bearer ' . $this->token . ''];
 		$response     =  $this->Request("DELETE");
+		return $response;
+	}
+
+
+
+	public function criarCobranca()
+	{
+		$jayParsedAry = [
+			"calendario" => [
+				"expiracao" => 3600
+			],
+			"devedor" => [
+				"cnpj" => "12345678000195",
+				"nome" => "Empresa de Serviços SA"
+			],
+			"valor" => [
+				"original" => "37.00",
+				"modalidadeAlteracao" => 1
+			],
+			"chave" => "{{chavePix}}",
+			"solicitacaoPagador" => "Serviço realizado.",
+			"infoAdicionais" => [
+				[
+					"nome" => "Campo 1",
+					"valor" => "Informação Adicional1 do PSP-Recebedor"
+				],
+				[
+					"nome" => "Campo 2",
+					"valor" => "Informação Adicional2 do PSP-Recebedor"
+				]
+			]
+		];
+
+		$this->fields = json_encode($jayParsedAry);
+		$this->parth  =  '/api/v2/cob';
+		$this->header =  ['Content-Type: application/json', 'Authorization: Bearer ' . $this->token . ''];
+
+		$response     =  $this->Request("POST");
 		return $response;
 	}
 }
