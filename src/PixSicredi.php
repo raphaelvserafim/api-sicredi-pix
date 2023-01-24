@@ -17,8 +17,9 @@ class PixSicredi
 	public  $crt_file;
 	public  $key_file;
 	public  $pass;
-
-
+	public $header;
+	public $parth;
+	public $fields;
 
 	public function __construct($dados)
 	{
@@ -39,6 +40,27 @@ class PixSicredi
 		$this->authorization = base64_encode($this->client_id . ":" . $this->client_secret);
 	}
 
+	public function Request($method)
+	{
+
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $this->url .  $this->parth);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $this->header);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $this->fields);
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0');
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($curl, CURLOPT_SSLCERT, $this->crt_file);
+		curl_setopt($curl, CURLOPT_SSLKEY, $this->key_file);
+		curl_setopt($curl, CURLOPT_SSLKEYPASSWD, $this->pass);
+		$response = curl_exec($curl);
+		$status   = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		curl_close($curl);
+		return json_encode(["code" => $status, "data" => $response]);
+	}
+
 
 
 	public function accessToken()
@@ -55,6 +77,7 @@ class PixSicredi
 			'Authorization: Basic ' . $this->authorization . ' '
 		]);
 		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0');
+
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($curl, CURLOPT_SSLCERT, $this->crt_file);
 		curl_setopt($curl, CURLOPT_SSLKEY, $this->key_file);
@@ -72,48 +95,22 @@ class PixSicredi
 
 
 
-	public function updateWebhook($url)
+	public function updateWebhook($url, $chave)
 	{
-		$curl = curl_init();
-		curl_setopt_array($curl, array(
-			CURLOPT_URL => $this->url . "/api/v2/webhook/",
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_ENCODING => "",
-			CURLOPT_MAXREDIRS => 10,
-			CURLOPT_TIMEOUT => 0,
-			CURLOPT_FOLLOWLOCATION => true,
-			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-			CURLOPT_CUSTOMREQUEST => "PUT",
-			CURLOPT_POSTFIELDS => json_encode(["webhookUrl" => $url]),
-			CURLOPT_HTTPHEADER => array(
-				"Content-Type: application/json",
-				"Authorization: Bearer {$this->token}"
-			),
-		));
-		$response = curl_exec($curl);
-		curl_close($curl);
-		return $response;
+
+		$this->parth  =  '/api/v2/webhook/' . $chave;
+		$this->header =  ['Content-Type: application/json', 'Authorization: Bearer ' . $this->token . ''];
+		$this->fields =  json_encode(["webhookUrl" => $url]);
+		return $this->Request("PUT");
 	}
 
-	public function getUrlWebhook()
+
+
+	public function getUrlWebhook($chave)
 	{
-		$curl = curl_init();
 
-		curl_setopt_array($curl, array(
-			CURLOPT_URL =>  $this->url . '/api/v2/webhook/',
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_ENCODING => '',
-			CURLOPT_MAXREDIRS => 10,
-			CURLOPT_TIMEOUT => 0,
-			CURLOPT_FOLLOWLOCATION => true,
-			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-			CURLOPT_CUSTOMREQUEST => 'GET',
-			CURLOPT_HTTPHEADER => array('Authorization: Bearer  ' . $this->token . ' '),
-		));
-
-		$response = curl_exec($curl);
-		$status   = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-		curl_close($curl);
-		return $response;
+		$this->parth  =  '/api/v2/webhook/' . $chave;
+		$this->header =  ['Authorization: Bearer ' . $this->token . ''];
+		return $this->Request("GET");
 	}
 }
