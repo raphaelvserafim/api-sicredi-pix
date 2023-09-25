@@ -81,6 +81,7 @@ $cobranca  = [
     ]
 ];
 
+ $pix->token = $accessToken;
  $pix->criarCobranca($cobranca );
  
 ```
