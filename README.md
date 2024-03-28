@@ -1,8 +1,6 @@
 # API PIX do Sicredi em PHP: Como criar cobranças e receber eventos webhook 
 
-
 ## CONTATO 
- 
 <p>
 <a href="https://wa.me/5566996852025" target="_blank"> 
  <img src="https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" title="+55 66 99685-2025"/> 
@@ -20,6 +18,12 @@
  <img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank">
 </a>  
 </p>
+
+# Versão para Node JS
+
+<a href="https://github.com/raphaelvserafim/gerar-pix-sicredi" target="_blank">
+Gerar Pix Sicredi Node JS | TypeScript | JavaScript
+</a>  
  
 
 
