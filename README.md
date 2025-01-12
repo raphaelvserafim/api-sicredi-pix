@@ -2,7 +2,7 @@
 
 ## CONTATO 
 <p>
-<a href="https://wa.me/5566996852025" target="_blank"> 
+<a href="https://wa.me/14375223417" target="_blank"> 
  <img src="https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" title="+55 66 99685-2025"/> 
 </a>
 
